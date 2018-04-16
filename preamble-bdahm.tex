@@ -1,0 +1,656 @@
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage[shortlabels]{enumitem}
+
+\usepackage{bm}
+
+\usepackage{pifont}
+\usepackage{url}
+
+\usepackage[algo2e,ruled,vlined,linesnumbered, noend]{algorithm2e}
+\SetCommentSty{textit}
+\DontPrintSemicolon
+\IncMargin{-\parindent}
+\SetAlCapHSkip{0pt}
+\SetAlgoLined
+\makeatletter
+\newcommand{\removelatexerror}{\let\@latex@error\@gobble}
+\makeatother
+\SetKwProg{Function}{Function}{}{}
+\SetKw{Continue}{continue}
+\SetKwFunction{Activate}{Activate}
+\SetKwFunction{rate}{rate}
+\SetKwFunction{coarsen}{coarsen}
+\SetKwFunction{DeltaGainUpdate}{DeltaGainUpdate}
+\SetKwFunction{UpdateGainCache}{UpdateGainCache}
+\SetKwFunction{AdaptiveHashTableConstruction}{AdaptiveHashTableConstruction}
+\SetKwFunction{BFSTraversal}{BFSTraversal}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+
+\newcommand{\cmark}{{\color{KITgreen}\ding{51}}}%
+\newcommand{\xmark}{{\color{KITred}\ding{55}}}%
+\newcommand{\itemcolor}{KITblue}
+
+
+
+\newcommand{\quickcite}[1]{\textcolor{KITblue}{\scriptsize{[#1]}}}
+\newcommand{\imgsource}[1]{\textcolor{KITblue}{\tiny [#1]}}
+\newcommand{\header}[1]{{\bf \footnotesize \color{KITgreen} #1}}
+\newcommand{\twoparttitle}[2]{{\footnotesize \bf \color{KITgreen} #1 $|$} #2}
+
+\newcommand{\highlight}[1]{\textcolor{KITblue}{#1}}
+\newcommand{\alert}[1]{\textcolor{KITred}{#1}}
+
+\usepackage{graphicx}
+
+\definecolor{grau}{rgb}{.5,0.5,0.5}
+\definecolor{darkred}{rgb}{.7,0.05,0.2}
+%\definecolor{darkyellow}{rgb}{0.9,0.8,0}
+%\definecolor{darkgreen}{rgb}{0,0.6,0}
+%\definecolor{mymagenta}{rgb}{0.5,0.5,0}
+\definecolor{mycyan}{rgb}{0,0.6,0.6}
+\definecolor{myred}{rgb}{1,0.2,0.2}
+\definecolor{mygreen}{rgb}{0,.5,0}
+%\definecolor{KITred}{rgb}{0.60,0,0.32}
+%\definecolor{KITred70}{rgb}{0.88,0,0.48}
+\definecolor{grey}{rgb}{.3,0.3,0.3}
+\definecolor{darkred}{rgb}{.7,0.05,0.2}
+\definecolor{darkyellow}{rgb}{0.9,0.8,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{mymagenta}{rgb}{0.5,0.5,0}
+\definecolor{white}{rgb}{1,1,1}
+
+\newcommand{\rot}[1]{{\color{myred}#1}}
+\newcommand{\grau}[1]{{\color{grey}#1}}
+\newcommand{\cyan}[1]{{\color{mycyan}#1}}
+\newcommand{\blau}[1]{{\color{KITblue}#1}}
+\newcommand{\magenta}[1]{{\color{mymagenta}#1}}
+%\newcommand{\gruen}[1]{{\color{darkgreen}#1}}
+\newcommand{\gruen}[1]{{\color{mygreen}#1}}
+
+% Macropackage of Peter Sanders
+% =============================
+%
+% SE, 07.01.99: \prob, \expect, \var modified
+% SE, 26.01.99: joined with macros of SE
+% allgemeine mathematische Notation
+%\newcommand{\Id}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\hdelta}{\rot{\hat{\delta}}}
+\newcommand{\Bdelta}{\blau{\bar{\delta}}}
+\newcommand{\folgt}{\longrightarrow}
+\newcommand{\equivalent}{\longleftrightarrow}
+\newcommand{\seqGilt}[2]{\left\langle #1\gilt #2\right\rangle}
+\newcommand{\Id}[1]{\ensuremath{\text{{\sf #1}}}}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\abs}[1]{\left| #1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\enorm}[1]{\norm{#1}_{2}}
+\newcommand{\sumnorm}[1]{\norm{#1}_{1}}
+\newcommand{\maxnorm}[1]{\norm{#1}_{\infty}}
+\newcommand{\xor}{\oplus}
+\newcommand{\set}[1]{\left\{ #1\right\}}
+\newcommand{\gilt}{:}
+%\newcommand{\sodass}{\,:\,}
+\newcommand{\sodass}{\mid}
+\newcommand{\setGilt}[2]{\left\{ #1\gilt #2\right\}}
+\newcommand{\Def}{:=}
+\newcommand{\zvektor}[2]{\left(#1,#2\right)}
+\newcommand{\vek}[1]{{\bf#1}}
+\newcommand{\vektor}[2]{\left(\begin{smallmatrix}#1\\#2\end{smallmatrix}\right)}
+\newcommand{\vektord}[3]{\left(\begin{smallmatrix}#1\\#2\\#3\end{smallmatrix}\right)}
+\newcommand{\condition}[1]{\left[#1\right]}
+\newcommand{\binomial}[2]{\binom{#1}{#2}}
+\newcommand{\even}{\mathrm{even}}
+\newcommand{\odd}{\mathrm{odd}}
+\newcommand{\mymod}{\,\bmod\,}
+% \newcommand{\divides}{|}
+
+
+% Typen
+\newcommand{\nat}{\mathbb{N}}
+\newcommand{\natnull}{\mathbb{N}_{0}}
+%\newcommand{\natless}[1]{\mathbb{N}_{&lt;#1}}
+\newcommand{\natless}[1]{\mathbb{N}_{#1}}
+\newcommand{\nplus}{\mathbb{N}_+}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\rplus}{\mathbb{R}_+}
+\newcommand{\rnneg}{\mathbb{R}_*}
+\newcommand{\integer}{\mathbb{Z}}
+% \newcommand{\intint}[2]{\set{#1,\ldots, #2}}
+\newcommand{\intint}[2]{{#1}..{#2}}
+\newcommand{\realrange}[2]{\left[#1, #2\right]}
+\newcommand{\realrangeo}[2]{\left(#1, #2\right)}
+\newcommand{\realrangelo}[2]{\left(#1, #2\right]}
+\newcommand{\realrangero}[2]{\left[#1, #2\right)}
+\newcommand{\unitrange}[2]{\realrange{0}{1}}
+\newcommand{\bool}{\set{0,1}}
+%\newcommand{\boolean}{\mathbb{B}}
+%\newcommand{\mapping}[2]{#1\rightarrow #2}
+\newcommand{\mapping}[2]{{#2}^{#1}}
+\newcommand{\powerset}[1]{{\cal P}\left(#1\right)}
+\newcommand{\NP}{\ensuremath{\mathbf{NP}}\xspace}
+\newcommand{\Bild}{\mathbf{Bild}\:}
+
+% Typannotation
+\newcommand{\withtype}[1]{\in#1}
+
+% Wahrscheinlichkeitsrechnung
+\newcommand{\prob}[1]{{\mathbb{P}}\left[#1\right]}
+\newcommand{\condprob}[2]{{\mathbb{P}}\left(#1\;|\;#2\right)}
+\newcommand{\condexpect}[2]{{\mathbb{E}}\left(#1\;|\;#2\right)}
+\newcommand{\expect}[1]{{\mathbb{E}}\left[#1\right]}
+\newcommand{\var}{{\mathbb{V}}}
+\newcommand{\quant}[2]{\tilde{#1}_{#2}}
+
+% asymptotische Notation
+\newcommand{\whpO}[1]{\tilde{\mathrm{O}}\left( #1\right)}
+\newcommand{\Oschlange}[1]{\tilde{\mathrm{O}}\!\left( #1\right)}
+\newcommand{\Ohh}[1]{\mathrm{O}\!\left( #1\right)}
+\newcommand{\Oh}[1]{\mathrm{O}\!\left( #1\right)}
+\newcommand{\Ohlarge}[1]{\mathrm{O}\!\left( #1\right)}
+% \newcommand{\Oh}[1]{{\mathrm{O}}(#1)}
+\newcommand{\Ohsmall}[1]{\mathrm{O}(#1)}
+\newcommand{\oh}[1]{\mathrm{o}\!\left( #1\right)}
+\newcommand{\Th}[1]{\Theta\!\left( #1\right)}
+\newcommand{\Om}[1]{\Omega\left(#1\right)}
+\newcommand{\om}[1]{\omega\!\left( #1\right)}
+\newcommand{\Oleq}{\preceq}
+
+% local reference
+\newcommand{\lref}[1]{\ref{\labelprefix:#1}}
+\newcommand{\llabel}[1]{\label{\labelprefix:#1}}
+\newcommand{\labelprefix}{} % later redefined using renewcommand
+
+% Diskussion
+\newcommand{\discussionsize}{\small}
+\newenvironment{discussion}{\par\discussionsize}{\par}
+
+% open issues
+%\marginparwidth5cm
+\marginparpush2mm
+\marginparsep1mm 
+\newcommand{\notiz}[1]{}
+\newcommand{\frage}[1]{}
+%\newcommand{\frage}[1]{\makebox[0cm]{$\bigotimes$}\marginpar{\tiny #1}}
+
+\newcommand{\mysubsubsection}[1]{\vspace{2mm}\noindent{\bf #1 }}
+
+% punkt am ende von display math
+\newcommand{\punkt}{\enspace .}
+
+% Pseudocode Unterst\"utzung
+\newenvironment{code}{\noindent%\sf%
+\begin{tabbing}%
+\hspace{2em}\=\hspace{2em}\=\hspace{2em}\=\hspace{2em}\=\hspace{2em}\=%
+\hspace{2em}\=\hspace{2em}\=\hspace{2em}\=\hspace{2em}\=\hspace{2em}\=%
+\kill}{\end{tabbing}}
+
+% 1=pos, 2=llable, 3=caption
+\newcommand{\labelcommand}{}
+\newcommand{\captiontext}{}
+\newsavebox{\codeparam}
+\newcounter{lineNumber}
+\newenvironment{disscodepos}[3]{%
+\renewcommand{\labelcommand}{#2}%
+\renewcommand{\captiontext}{#3}%
+\sbox{\codeparam}{\parbox{\textwidth}{#3}}%
+\begin{figure}[#1]\begin{center}\begin{code}\setcounter{lineNumber}{1}}{%
+\end{code}\end{center}\caption{\llabel{\labelcommand}\captiontext}\end{figure}}
+
+\newenvironment{disscode}[2]{\begin{disscodepos}{htb}{#1}{#2}}%
+{\end{disscodepos}}
+
+% code in text 
+%\newcommand{\codel}[1]{{\sf #1}}
+%\newcommand{\codem}[1]{\mathsf{#1}}
+\newcommand{\codel}[1]{\mbox{\rm "`#1"'}}
+\newcommand{\codem}[1]{\mathrm{#1}}
+
+\newcommand{\Assert}{{\bf\color{KITblue} assert\ }}
+\newcommand{\Invariant}{{\bf\color{KITblue} invariant\ }}
+\newcommand{\Old}[1]{{\bf\color{KITblue} old}\ensuremath{(}#1\ensuremath{)}}
+\newcommand{\Class}{{\bf\color{KITblue} Class\ }}
+\newcommand{\Constant}{{\bf\color{KITblue} Constant\ }}
+\newcommand{\Array}{{\bf\color{KITblue} Array\ }}
+\newcommand{\Of}{{\bf\color{KITblue} of\ }}
+\newcommand{\Functii} {{\bf\color{KITblue} Function\ }}
+\newcommand{\Funct}[3]{\Functii #1\Declare{{\rm (}{#2\rm )}}{#3}}
+\newcommand{\TFunct}[2]{\Functii #1\Declare{}{#2}}
+\newcommand{\ProcedP}{{\bf\color{KITblue} Procedure\ }}
+\newcommand{\Operator}{{\bf\color{KITblue} Operator\ }}
+\newcommand{\Type}{{\bf\color{KITblue} Type\ }}
+\newcommand{\Address}{{\bf\color{KITblue} address of\ }}
+\newcommand{\Pointer}{{\bf\color{KITblue} Pointer\ }}
+\newcommand{\Points}{\ensuremath{\rightarrow}}
+\newcommand{\Allocate}{{\bf\color{KITblue} allocate\ }}
+\newcommand{\This}{{\bf\color{KITblue} this\ }}
+\newcommand{\Null}{{\bf\color{KITblue} null\ }}
+\newcommand{\Dispose}{{\bf\color{KITblue} dispose\ }}
+\newcommand{\Deallocate}{{\bf\color{KITblue} dispose\ }}
+\newcommand{\Delete}{{\bf\color{KITblue} dispose\ }}
+\newcommand{\Process}{{\bf\color{KITblue} process\ }}
+\newcommand{\WhileP}    {{\bf\color{KITblue} while\ }}
+\newcommand{\RepeatP}   {{\bf\color{KITblue} repeat\ }}
+\newcommand{\UntilP}    {{\bf\color{KITblue} until\ }}
+\newcommand{\LoopP}     {{\bf\color{KITblue} loop\ }}
+\newcommand{\Exit}     {{\bf\color{KITblue} exit\ }}
+\newcommand{\Goto}     {{\bf\color{KITblue} goto\ }}
+\newcommand{\Do}       {{\bf\color{KITblue} do\ }}
+\newcommand{\Od}       {{\bf\color{KITblue} od\ }}
+\newcommand{\Dopar}       {{\bf\color{KITblue} dopar\ }}
+\newcommand{\ForP}      {{\bf\color{KITblue} for\ }}
+\newcommand{\Foreach}      {{\bf\color{KITblue} foreach\ }}
+\newcommand{\Rof}      {{\bf\color{KITblue} rof\ }}
+\newcommand{\Is}{\mbox{\rm := }}
+\newcommand{\Forall}      {{\bf\color{KITblue} forall\ }}
+\newcommand{\ForFromTo}[3]{{\ForP $#1$ \Is $#2$ \To $#3$ \Do}}
+\newcommand{\ForFromToWhile}[4]{{\ForP $#1$ \Is $#2$ \To $#3$ \WhileP $#4$ \Do}}
+\newcommand{\ForFromDowntoWhile}[4]{{\ForP $#1$ \Is $#2$ \Downto $#3$ \WhileP $#4$ \Do}}
+\newcommand{\ForFromDownto}[3]{{\ForP $#1$ \Is $#2$ \Downto $#3$ \Do}}
+%\newcommand{\ForFromWhile}[3]{{\ForP $#1$ \Is $#2$ \To $\infty$ \WhileP $#3$ \Do}}
+\newcommand{\ForFromWhile}[3]{{\ForP ($#1$ \Is $#2$;\,\, $#3$;\,\, $#1\Increment$) }}
+%\newcommand{\ForFromdownWhile}[3]{{\ForP $#1$ \Is $#2$ \Downto $-\infty$ \WhileP $#3$ \Do}}
+\newcommand{\ForFromdownWhile}[3]{{\ForP ($#1$ \Is $#2$;\,\, $#3$;\,\, $#1\Decrement$) }}
+\newcommand{\ForFromToStep}[4]{{\ForP $#1$ \Is $#2$ \To $#3$ \Step $#4$  \Do}}
+\newcommand{\ForFromDowntoStep}[4]{{\ForP $#1$ \Is $#2$ \Downto $#3$  \Step $#4$ \Do}}
+\newcommand{\ForFromStepWhile}[4]{{\ForP $#1$ \Is $#2$ \To $\infty$ \Step $#3$  \WhileP $#4$ \Do}}
+\newcommand{\ForFromdownStepWhile}[4]{{\ForP $#1$ \Is $#2$ \Downto $-\infty$ \Step $#3$  \WhileP $#4$ \Do}}
+%\newcommand{\ForFromTo}[3]{{\ForP $#1\in #2..#3$ \Do}}
+%\newcommand{\ForFromToDown}[3]{{\ForP $#1\in #2..#3$ {\bf\color{KITblue} downwards} \Do}}
+%\newcommand{\ForFromWhile}[3]{{\ForP $#1\in #2..$ \WhileP $#3$ \Do}}
+%\newcommand{\ForFromDownWhile}[3]{{\ForP $#1\in #2..$ {\bf\color{KITblue} downwards} \WhileP $#3$ \Do}}
+%\newcommand{\ForFromToStep}[4]{{\ForP $#1\in #2..#3$ \Step $#4$ \Do}}
+%\newcommand{\ForFromToDownStep}[4]{{\ForP $#1\in #2..#3$ {\bf\color{KITblue} downwards} \Step $#4$  \Do}}
+%\newcommand{\ForFromWhileStep}[4]{{\ForP $#1\in #2..$ \WhileP $#3$ \Step $#4$  \Do}}
+%\newcommand{\ForFromDownWhileStep}[4]{{\ForP $#1\in #2..$ {\bf\color{KITblue} downwards} \WhileP $#3$ \Step $#4$  \Do}}
+\newcommand{\To}       {{\bf\color{KITblue} to\ }}
+\newcommand{\Step}       {{\bf\color{KITblue} step\ }}
+\newcommand{\Downto}       {{\bf\color{KITblue} downto\ }}
+\newcommand{\IfP}       {{\bf\color{KITblue} if\ }}
+\newcommand{\Endif}    {{\bf\color{KITblue} endif\ }}
+\newcommand{\Fi}       {{\bf\color{KITblue} fi\ }}
+\newcommand{\ThenP}     {{\bf\color{KITblue} then\ }}
+\newcommand{\ElseP}     {{\bf\color{KITblue} else\ }}
+\newcommand{\Elsif}    {{\bf\color{KITblue} else if\ }}
+\newcommand{\ReturnP}   {{\bf\color{KITblue} return\ }}
+\newcommand{\Set}      {{\bf\color{KITblue} set\ }}
+%\newcommand{\Boolean}  {{\bf\color{KITblue} boolean\ }}
+\newcommand{\Boolean}  {\ensuremath{\set{0,1}}}
+\newcommand{\Integer}  {$\integer$}
+%\newcommand{\True}     {{\bf\color{KITblue} true\ }}
+%\newcommand{\False}    {{\bf\color{KITblue} false\ }}
+\newcommand{\True}     {\mathtt{1}}
+\newcommand{\False}    {\mathtt{0}}
+\newcommand{\Bitand}   {{\bf\color{KITblue} bitand\ }}
+%\newcommand{\Var}      {{\bf\color{KITblue} var\ }}
+%\newcommand{\Xor}       {{\bf\color{KITblue}\ xor\ }}
+%\newcommand{\Not}       {{\bf\color{KITblue}\ not\ }}
+%\newcommand{\Or}       {{\bf\color{KITblue}\ or\ }}
+\newcommand{\Xor}       {\ensuremath{\oplus}}
+\newcommand{\Not}       {\ensuremath{\neg}}
+\newcommand{\Or}       {\ensuremath{\vee}}
+%\newcommand{\And}       {\ensuremath{\wedge}}
+\newcommand{\Div}       {{\bf\ div\ }}
+\newcommand{\Mod}       {{\bf\ mod\ }}
+\newcommand{\Decrement}  {\ensuremath{\mathbf{-}\mathbf{-}\ }}
+\newcommand{\Increment}  {\ensuremath{\mathbf{+}\mathbf{+}\ }}
+\newcommand{\End}       {{\bf\color{KITblue} end\ }}
+\newcommand{\Endfor}       {{\bf\color{KITblue} endfor\ }}
+%\newcommand{\Rem}[1]   {{\bf\color{KITblue} (*~}{\rm#1}{\bf\color{KITblue} ~*)}}
+\newcommand{\Rem}[1]   {{\bf\color{KITblue} //\hspace{0.5mm}{\rm#1}}}
+% rechtsbuendiger Kommentar
+%\newcommand{\RRem}[1]   {\`{$\mathbf{(*}$~ }{\rm#1}{~$\mathbf{*)}$}}
+%\newcommand{\RRem}[1]   {\`{\bf\color{KITblue} --\hspace{0.5mm}--~}{\rm#1}}
+\newcommand{\RRem}[1]   {\`{\bf //\hspace{0.5mm}~}{\rm#1}}
+\newcommand{\Flush}[1]   {\`{\bf \hspace{0.5mm}~}{\rm#1}}
+\newcommand{\RRemNL}[1]   {\`{\bf (*~ }{\rm#1}{\bf ~*)}%
+{\tiny\arabic{lineNumber}}\stepcounter{lineNumber}}
+\newcommand{\Declare}[2]{#1\mbox{ \rm : }#2}
+\newcommand{\DeclareInit}[3]{#1$=$#3 \mbox{ \rm : }#2}
+%\newcommand{\At}[1]{\left\langle#1\right\rangle}
+\newcommand{\At}[1]{@#1}
+\newcommand{\NL}{\`{\tiny\arabic{lineNumber}}\stepcounter{lineNumber}}
+
+% Parallelverarbeitungspseudocode
+\newcommand{\iProc}{i_\mathrm{PE}}
+
+% Parameter 1=pos, 2=xsize, 3=filename, 4=llabel, 4=caption
+\newcommand{\dissepslong}[5]{\begin{figure}[#1]\begin{center}%
+\epsfxsize#2\leavevmode\epsfbox{#3.eps}%
+\end{center}\caption{\llabel{#4}#5}\end{figure}}
+
+\newcommand{\dissepspos}[4]{\dissepslong{#1}{#2}{\labelprefix/#3}{#3}{#4}}
+\newcommand{\disseps}[3]{\dissepspos{htb}{#1}{#2}{#3}}
+
+% Beweise
+\newdimen\endofsize\endofsize=0.5em
+\def\endofbeweis{~\quad\hglue\hsize minus\hsize
+                 \hbox{\vrule height \endofsize width
+\endofsize}\par}
+% gibt es in amsmath schon
+\newenvironment{myproof}{\begin{proof}}{\endofbeweis\end{proof}}
+% \newcommand{\platsch}{\hglue\hsize minus\hsize}
+
+
+% Definitions of Sebastian Egner
+% ==============================
+
+
+
+% \Z gives the nice `Z&apos; to denote the integers
+%\newcommand{\Z}[0]{%
+%{\rm\sf\setbox0=\hbox{Z}Z\makebox[-\wd0]{}\,Z}}
+\newcommand{\Z}[0]{{\mathbb{Z}}}
+
+% \Q gives the nice `Q&apos; to denote the rationals
+%\newcommand{\Q}[0]{%
+%{\rm\sf\setbox0=\hbox{Q}Q\makebox[-\wd0]{}\,I\,\,}}
+%\newcommand{\Q}[0]{{\mathbb{Q}}}
+
+% \R gives the nice `R&apos; to denote reals
+%\newcommand{\R}[0]{\mbox{$\rm\sf I\!R$}}
+\newcommand{\R}[0]{{\mathbb{R}}}
+
+% \C gives the nice `C&apos; to denote complex numbers
+%\newcommand{\C}[0]{\mbox{$\rm\sf I\!\!\!C$}}
+\newcommand{\C}[0]{{\mathbb{C}}}
+
+% \F gives the nice `F&apos; to denote a generic field
+\newcommand{\F}[0]{{\rm\sf F}}
+
+% \GL gives the nice `GL&apos; to denote invertible matrices
+\newcommand{\GL}[0]{{\rm\sf GL}}
+
+% \GF gives the nice &apos;F&apos; to denote finite fields
+%\newcommand{\GF}[1]{\mbox{$\rm\sf I\!R_{#1}$}}
+\newcommand{\GF}[1]{{\mathbb{F}_{#1}}}
+
+% bigsqcap_{#1} (has been forgotten in TeX)
+\newcommand{\bigsqcap}[1]{
+  \hspace{-1.0em}\raisebox{-1.0ex}{
+    \renewcommand{\arraystretch}{0.5}
+    $\begin{array}{c}
+      \mbox{\LARGE$\sqcap$}  \\
+      \mbox{\scriptsize$#1$}
+    \end{array}$}\!\!}
+
+% combinations n choose k
+\newcommand{\combinations}[2]{%
+{\renewcommand{\arraystretch}{0.8}%
+ \setlength{\arraycolsep}{0.2em}%
+ \left( \begin{array}{c} {#1} \\ {#2} \end{array} \right)}}
+
+% \smallexpr{&lt;expr&gt;} puts &lt;expr&gt; in \footnotesize
+\newcommand{\smallexpr}[1]{\mbox{\footnotesize$#1$}}
+
+% \smallsmallexpr{&lt;expr&gt;} puts &lt;expr&gt; in \scriptsize
+\newcommand{\smallsmallexpr}[1]{\mbox{\scriptsize$#1$}}
+
+% \begin{theorem} .. \end{theorem} gives a theorem
+%\newtheorem{theorem}{Satz}
+
+% \begin{lemma} .. \end{lemma} gives a lemma
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+
+% a prominent problem
+%\newtheorem{problem}[theorem]{Problem}
+
+% \begin{definition} .. \end{definition} gives a def.
+%\newtheorem{definition}[theorem]{Definition}
+
+%\newtheorem{corollary}[theorem]{Corollary}
+
+% \begin{algorithm} .. \end{algorithm} gives an algorithm
+%\newenvironment{algorithm}%
+%{\par\vspace{1.0ex}\noindent{\bf Algorithm}\ }%
+%{\par\vspace{-1.5ex}\noindent}
+
+% \begin{proof} .. \end{proof} gives a proof
+%\newenvironment{proof}%
+%{\vspace{0.5ex}\noindent{\bf Proof:}\ }%
+%{\par\vspace{0.5ex}\noindent}%
+
+% q.e.d. sign
+\newcommand{\myqed}[0]{\hfill\rule{1ex}{1ex}}
+%\newcommand{\qed}[0]{~\mbox{$\triangleleft$}}
+%\newcommand{\qed}[0]{\hfill\mbox{$\Box$}}
+
+
+\newcommand{\bdelta}{\bar{\delta}}
+%\newcommand{\tdelta}{\tilde{\delta}}
+%\newcommand{\tA}{\tilde{A}}
+%\newcommand{\tq}{\tilde{q}}
+%\newcommand{\tF}{\tilde{F}}
+\newcommand{\tdelta}{\delta&apos;}
+\newcommand{\tA}{A&apos;}
+\newcommand{\tq}{q&apos;}
+\newcommand{\tF}{F&apos;}
+\frage{auch in skript!}
+\newcommand{\Mequiv}{M_{\equiv}}
+\newcommand{\blank}{\ensuremath{\sqcup}}
+%\newcommand{\Poly}{\text{\bf P}}
+\newcommand{\Poly}{\ensuremath{\mathbf{P}}\xspace}
+%\newcommand{\NP}{\mathcal{NP}}
+\newcommand{\FPTAS}{\ensuremath{\mathbf{FPTAS}}\xspace}
+\newcommand{\PTAS}{\ensuremath{\mathbf{PTAS}}\xspace}
+\newcommand{\APX}{\ensuremath{\mathbf{APX}}\xspace}
+\newcommand{\algname}{sss-sort}
+\newcommand{\Algname}{Sss-sort}
+\newcommand{\Univ}{\mathcal{H}}
+\newcommand{\SProduct}{\mathcal{H^{\cdot}}}
+\newcommand{\Hdot}{\ensuremath{H^{\cdot}}}
+\newcommand{\Hbit}{\ensuremath{H^{\oplus}}}
+\newcommand{\Hshift}{\ensuremath{H^{\gg}}}
+\newcommand{\Hmatrix}{\ensuremath{H^{\times}}}
+\newcommand{\Hmult}{\ensuremath{H^{*}}}
+\newcommand{\Hfool}{\ensuremath{H^{\mathrm{fool}}}}
+\newcommand{\Htable}{\ensuremath{H^{[]}}}
+\newcommand{\Htableplus}{\ensuremath{H^{\oplus[]}}}
+\newcommand{\Lmax}{L_{\mathrm{max}}}
+
+\newcommand{\population}{\mathsf{pop}}
+\newcommand{\neighbors}{\mathcal{N}}
+\newcommand{\candidates}{\mathsf{cand}}
+\newcommand{\current}{\mathsf{curr}}
+%\renewcommand{\solution}{\hat{\myx}}
+\newcommand{\capacity}{\mathrm{cap}}
+\newcommand{\taboosize}{L}
+\newcommand{\taboo}{k}
+\newcommand{\sol}{\mathcal{L}}
+\newcommand{\universe}{\mathcal{U}}
+\newcommand{\oracle}{\mathcal{P}}
+\newcommand{\fopt}{f^*}
+\newcommand{\fupper}{\hat{f}}
+\newcommand{\flower}{\check{f}}
+\newcommand{\xlower}{\check{\myx}}
+\newcommand{\myv}[1]{\mathbf{#1}}
+\newcommand{\myx}{\myv{x}}
+\newcommand{\myy}{\myv{y}}
+
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\Tprim}{T_{\mathrm{Prim}}}
+\newcommand{\Tprefix}{T_{\mathrm{prefix}}}
+%\newtheorem{corollary}[theorem]{Korollar}
+\newcommand{\Exp}[1]{{\rm E}[ #1 ]}
+%\newcommand{\Invariant}{{\bf invariant\ }}
+%\newcommand{\Increment}  {\ensuremath{\mathbf{+}\mathbf{+}\ }}
+%\newcommand{\Assert}{{\bf assert\ }}
+%\newcommand{\Class}{{\bf Class\ }}
+%\newcommand{\Array}{{\bf Array\ }}
+%\newcommand{\Declare}[2]{#1\mbox{ \rm : }#2}
+%\newcommand{\DeclareInit}[3]{#1$=$#3 \mbox{ \rm : }#2}
+%\newcommand{\Of}{{\bf of\ }}
+%\newcommand{\Funct}[3]{\Function #1\Declare{{\rm (}{#2\rm )}}{#3}}
+\newcommand{\seq}[1]{\langle#1\rangle}
+\newcommand{\maxL}{L_{\max}}
+\newcommand{\optL}{{L_{\max}^{*}}}
+\newcommand{\Dphys}{D}
+\newcommand{\Batch}{b}
+\newcommand{\Bdist}[2]{\mathcal{B}(#1,#2)}
+\newcommand{\Ldelta}{L_{\Delta}}
+\newcommand{\Pdelta}{P_{d}}
+\newcommand{\absDelta}{d}
+\newcommand{\calN}{{\cal N}}
+\newcommand{\hash}{h}
+\newcommand{\height}{H}
+\newcommand{\hmax}{H_{\mathrm{max}}}
+\newcommand{\myc}{\gamma}
+\newcommand{\bavg}{b_{\epsilon}}
+%\newcommand{\bavg}{\bar{b}}
+\newcommand{\Pepsilon}{{P_d^{\epsilon}}}
+% conditions: 
+% epsilon &lt; 1/2
+% alpha &lt; e^(-2/(1-epsilon))
+\newcommand{\fastalpha}{16}
+\newcommand{\fastepsilon}{1/5}
+\newcommand{\ExtClassII}[6]{\mbox{\sc #1-I-O}_{#2,#3,#4}(#5,#6)}
+\newcommand{\MHDMII}[5]{\ExtClassII{MHDM}{#1}{#2}{#3}{#4}{#5}}
+\newcommand{\IPDMII}[5]{\ExtClassII{IPDM}{#1}{#2}{#3}{#4}{#5}}
+\newcommand{\Ga}{G_{a}} % allocation graph
+\newcommand{\Gs}{G_{s}} % schedule. G&apos; is worst choice
+\newcommand{\Path}[2]{(#1,\ldots,#2)}
+\newcommand{\DeltaBig}{\bar{\Delta}}
+\newcommand{\Bdach}{\hat{B}}
+%\input{mpilogo}
+%\input{./allmakros}
+\newcommand{\mylevels}{\protect\epsffile{levels.eps}}
+\newsavebox{\logoalt}
+\newdimen\semcm
+\semcm=1cm
+%\sbox{\logoalt}{\epsfysize1.5\semcm\epsffile{kitsmall.eps}}
+\newsavebox{\lvs}
+\sbox{\lvs}{}
+%\markright{\color{KITgreen}{\footnotesize \hspace*{1\semcm}Sanders: Algorithmen I {\tiny\today} \hspace*{\fill}\protect\raisebox{-0.5\semcm}[1.5\semcm][1\semcm]{\usebox{\lvs}}\hspace*{\fill}\protect\raisebox{-1\semcm}[1.5\semcm][1\semcm]{\usebox{\logoalt}}\hspace*{4mm}}}
+%%\sbox{\logo}{\color{blue}\mpipicture{0.3pt}{\thinlines}{{\footnotesize\INFORMATIK}}}
+%%\sbox{\logo}{\epsfxsize2.5\semcm\epsffile{unilogo.ps}}
+%\sbox{\logo}{\epsfysize1.5\semcm\epsffile{logo_ffi_cmyka.eps}}
+%\newsavebox{\lvs}
+%\sbox{\lvs}{}
+%\markright{\color{blue}{\footnotesize \hspace*{1\semcm}Sanders: Algorithmen I {\tiny\today}\hspace*{\fill}\protect\raisebox{-0.5\semcm}[1.5\semcm][1\semcm]{\usebox{\lvs}}\hspace*{\fill}\protect\raisebox{-0.5\semcm}[1.5\semcm][1\semcm]{\usebox{\logo}}\hspace*{4mm}}}
+
+%\slideframe{none}
+%\slidewidth22.5cm
+%\slideheight17cm
+%\topsep2\semcm
+% Bezeicher
+
+\newcommand{\JaJa}{\mbox{J\&apos;aJ\&apos;a}}
+\newcommand{\Tgossip}{T_{\mathrm{gossip}}}
+\newcommand{\Tcompare}{T_{\mathrm{compr}}}
+\newcommand{\Tseq}{T_{\mathrm{seq}}}
+\newcommand{\Tpar}{T_{\mathrm{par}}}
+\newcommand{\Srel}{S_{\mathrm{rel}}}
+\newcommand{\Tcoll}{T_{\mathrm{coll}}}
+\newcommand{\Trouting}{T_{\mathrm{rout}}}
+%\newcommand{\Tpar}{T_{\mathrm{par}}}
+\newcommand{\Tbroadcast}{T_{\mathrm{broadcast}}}
+\newcommand{\Tcomm}{T_{\mathrm{comm}}}
+\newcommand{\Tavg}{T_{\mathrm{avg}}}
+\newcommand{\Tbyte}{T_{\mathrm{byte}}}
+\newcommand{\Tstart}{T_{\mathrm{start}}}
+\newcommand{\Tfastsort}{T_{\mathrm{start}}}
+\newcommand{\Tcoeff}{T_{\mathrm{coeff}}}
+\newcommand{\Tgather}{T_{\mathrm{gather}}}
+\newcommand{\Tscatter}{T_{\mathrm{scatter}}}
+\newcommand{\Talltoall}{T_{\mathrm{all-to-all}}}
+\newcommand{\Tallgather}{T_{\mathrm{all-gather}}}
+\newcommand{\Tflop}{T_{\mathrm{flop}}}
+\newcommand{\Treduce}{T_{\mathrm{reduce}}}
+\newcommand{\Treducescatter}{T_{\mathrm{reduce-scatter}}}
+\newcommand{\Tallreduce}{T_{\mathrm{allreduce}}}
+\newcommand{\lmax}{l_{\mathrm{max}}}
+\newcommand{\Mall}{M_{\mathrm{all}}}
+\newcommand{\Pfail}{P_{\mathrm{fail}}}
+\newcommand{\Prob}[1]{\mathbf{Pr}[#1]}
+\newcommand{\kopt}{k_{\mathrm{opt}}}
+%\newcommand{\prob}[1]{\Prob{#1}}
+\newcommand{\card}{\mathrm{card}} 
+\newcommand{\co}[1]{\mathbf{#1}} % coordinate (of a cell in a CA)
+\newcommand{\nb}[1]{\mathbf{#1}} % neighbor (in a CA)
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\Tsplit}{T_{\mathrm{split}}}
+\newcommand{\Talt}{T_{\mathrm{alt}}}
+\newcommand{\Tneu}{T_{\mathrm{neu}}}
+\newcommand{\Tmax}{T_{\mathrm{max}}}
+\newcommand{\Tsim}{T_{\mathrm{sim}}}
+\newcommand{\mmax}{m_{\mathrm{max}}}
+\newcommand{\work}{\mathrm{work}}
+
+\newcommand{\splitp}{\mathrm{split}}
+%\renewcommand{\Problem}{I}
+\newcommand{\Proot}{P_{\mathrm{root}}}
+\newcommand{\Pempty}{P_{\emptyset}}
+%\newcommand{\Time}{T}
+%\newcommand{\Tcoll}{T_{\mathrm{coll}}}
+%\newcommand{\Trouting}{T_{\mathrm{rout}}}
+%\newcommand{\Tpar}{T_{\mathrm{par}}}
+%\newcommand{\Tseq}{T_{\mathrm{seq}}}
+\newcommand{\Trest}{T_{\mathrm{rest}}}
+\newcommand{\Tatomic}{T_{\mathrm{atomic}}}
+%\newcommand{\Tsplit}{T_{\mathrm{split}}}
+\newcommand{\qmax}{\bar{q}}
+\newcommand{\Tpoll}{T_{\mathrm{poll}}}
+\newcommand{\Ttot}{T_{\mathrm{tot}}}
+\newcommand{\proc}{n}
+%\newcommand{\Problem}{P}
+%\newcommand{\Proot}{P_{\mathrm{root}}}
+%\newcommand{\Pempty}{P_{\emptyset}}
+\newcommand{\problemset}{{\cal P}}
+%\newcommand{\work}{\mathrm{work}}
+%\newcommand{\splitp}{\mathrm{split}}
+\newcommand{\gen}{\mathrm{gen}}
+\newcommand{\Time}{T}
+\newcommand{\Umittel}{\bar{u}}
+
+\newcommand{\Ht}{\tilde{H}}
+\newcommand{\Tc}{T_{\rm x}}
+\newcommand{\Vt}{\tilde{V}}
+\newcommand{\allQ}{\breve{Q}}
+\newcommand{\insertS}{{\tt insert}}
+\newcommand{\insertP}{{\tt insert*}}
+\newcommand{\prune}{{\tt prune}}
+\newcommand{\delMin}{{\tt deleteMin}}
+\newcommand{\delMinP}{{\tt deleteMin*}}
+\newcommand{\deleteP}{{\tt delete*}}
+\newcommand{\decreaseKey}{{\tt decreaseKey*}}
+\newcommand{\delMinPTrenn}{{\tt delete\-Min*}}
+\newcommand{\lesscomplex}{\leq_p}
+\newcommand{\goes}{\Rightarrow}
+\newcommand{\goesn}[1]{{\stackrel{{#1}}{\Rightarrow}}}
+\newcommand{\goess}{\goesn{*}}
+\newcommand{\uebergang}{{\,\vdash\,}}
+\newcommand{\uebergangn}[1]{{\stackrel{{#1}}{\uebergang}}}
+\newcommand{\ableitbar}{{\uebergang^*}}
+
+\usepackage{relsize}
+
+% text formatting
+\newcommand{\algo}[1]{{\bf\color{KITblack70}{#1}}}
+\newcommand{\term}[1]{{\bf #1}}
+\newcommand{\atitle}[1]{\textsl{#1}}
+\newcommand{\func}[1]{ \mathit{#1} }
+\renewcommand{\var}[1]{\mathtt{#1}}
+\newcommand{\aname}[1]{\textsc{#1}}
+\newcommand{\software}[1]{\textsf{#1}}
+%\newcommand{\code}[1]{\textsf{#1}}
+\newcommand{\prb}[1]{\textsc{{\small#1}}}
+
+\newcommand{\cov}{\operatorname{cov}}
+
+\newcommand{\smallcaption}[1]{\caption{\scriptsize{#1}}}
+\newcommand{\faint}[1]{{\color{KITblack50} #1}}
+\newcommand{\etal}{et al.\xspace}
+
+\newcommand{\nwk}{\textsf{NetworKit}\xspace}
+
+
